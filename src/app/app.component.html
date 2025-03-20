@@ -1,0 +1,38 @@
+<div class="container">
+  <h1>World Countries Explorer</h1>
+  
+  <div class="filters">
+    <mat-form-field appearance="outline">
+      <mat-label>Search Country</mat-label>
+      <input matInput [(ngModel)]="searchTerm" (input)="applyFilters()" placeholder="Start typing...">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Filter by Region</mat-label>
+      <mat-select [(ngModel)]="selectedRegion" (selectionChange)="applyFilters()">
+        <mat-option value="">All Regions</mat-option>
+        <mat-option *ngFor="let region of regions" [value]="region">{{ region }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="loading" class="spinner-container">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <div class="country-grid">
+    <mat-card *ngFor="let country of filteredCountries" class="country-card">
+      <img mat-card-image [src]="country.flags.svg" [alt]="country.name + ' Flag'">
+      <mat-card-content>
+        <h2>{{ country.name }}</h2>
+        <p><strong>Population:</strong> {{ country.population | number }}</p>
+        <p><strong>Region:</strong> {{ country.region }}</p>
+        <p><strong>Capital:</strong> {{ country.capital[0] || 'N/A' }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
